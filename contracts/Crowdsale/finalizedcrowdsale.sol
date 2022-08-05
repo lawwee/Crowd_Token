@@ -17,7 +17,7 @@ abstract contract FinalizedCrowdsale is TimedCrowdsale {
         return _finalized;
     }
 
-    function finalize() public {
+    function finalize() public virtual {
         require(!_finalized, "FinalizedCrowdsale: already finalized");
         require(hasClosed(), "FinalizableCrowdsale: crowdsale has not closed");
 

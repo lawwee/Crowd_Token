@@ -4,8 +4,8 @@ pragma solidity ^0.8.9;
 
 import "../token.sol";
 
-contract TokenTimeLock {
-    TokenERC20 private immutable _token;
+contract TokenTimelock {
+    TokenERC20 internal _token;
     address private immutable _beneficiary;
     uint256 private immutable _releaseTime;
 

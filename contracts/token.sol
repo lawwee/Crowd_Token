@@ -175,9 +175,8 @@ contract TokenERC20 is IERC20, Context {
         return true;
     }
 
-    function mint(uint256 amount) external returns(bool) {
-        require(admin == msg.sender, "Mint: Not authorized to call this function");
-        _mint(admin, (amount * 10 ** decimals()));
+    function mint(address account, uint256 amount) external returns(bool) {
+        _mint(account, (amount * 10 ** decimals()));
         return true;
     }
 

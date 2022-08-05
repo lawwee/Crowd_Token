@@ -8,6 +8,7 @@ import "./capcrowdsale.sol";
 import "./finalizedcrowdsale.sol";
 import "./timedcrowdsale.sol";
 import "./crowdsale.sol";
+import "../Extras/tokentimelock.sol";
 
 contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCrowdsale {
     // Track Contributions
@@ -94,6 +95,27 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
         uint256 _newContribution = _existingContribution + _weiAmount;
         require(_newContribution >= minInvestorPrice && _newContribution <= maxInvestorPrice, "TokenSale: Investor price is not up to minimum or has exceeded maximum");
         contributions[_beneficiary] = _newContribution;
+    }
+
+    function finalize() public override {
+        TokenERC20 funtoken;
+        uint256 alreadyMinted = funtoken.totalSupply();
+
+        uint256 _finalTokenSupply = (alreadyMinted / tokenSalePercentage) * 100;
+
+        TokenTimelock _foundersTimelock = new TokenTimelock(_token, foundersFund, releaseTime);
+        TokenTimelock _foundationTimelock = new TokenTimelock(_token, foundationFund, releaseTime);
+        TokenTimelock _partnersTimelock = new TokenTimelock(_token, partnersFund, releaseTime);
+
+        foundersTimelock = address(_foundersTimelock);
+        foundationTimelock = address(_foundationTimelock);
+        partnersTimelock = address(_partnersTimelock);
+
+        funtoken.mint(foundersTimelock, (_finalTokenSupply * foundersPercentage) / 100);
+        funtoken.mint(foundationTimelock, (_finalTokenSupply * foundationPercentage) / 100);
+        funtoken.mint(partnersTimelock, (_finalTokenSupply * partnersPercentage) / 100);
+
+        super.finalize();
     }
 
 }

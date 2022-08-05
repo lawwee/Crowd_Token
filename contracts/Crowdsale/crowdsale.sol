@@ -9,14 +9,14 @@ import "../Extras/context.sol";
 import "hardhat/console.sol";
 
 abstract contract Crowdsale is Context, ReentrancyGuard {
-    IERC20 private _token;
+    TokenERC20 internal _token;
     address payable internal _wallet;
     uint256 internal _rate;
     uint256 private _weiRaised;
 
     event TokensPurchased(address indexed purchaser, address indexed beneficiary, uint256 value, uint256 amount);
 
-    constructor(uint256 rate_, address payable wallet_, IERC20 token_) {
+    constructor(uint256 rate_, address payable wallet_, TokenERC20 token_) {
         require(rate_ > 0, "Crowdsale: rate cannot be 0");
         require(wallet_ != address(0), "Crowdsale: wallet cannot be zero address");
         require(address(token_) != address(0), "Crowdsale: token address cannot be zero address");
@@ -26,7 +26,7 @@ abstract contract Crowdsale is Context, ReentrancyGuard {
         _token = token_;
     }
 
-    function token() public view returns (IERC20) {
+    function token() public view returns (TokenERC20) {
         return _token;
     }
 
