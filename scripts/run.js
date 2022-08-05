@@ -5,20 +5,20 @@ async function main() {
     await tokenContract.deployed();
     console.log("deploy success");
 
-    // txn = await tokenContract.transfer(owner.address, 300);
-    // await txn.wait();
+    const crowdContractFactory = await hre.ethers.getContractFactory("CrowdSale");
+    const crowdContract = await crowdContractFactory.deploy(
+        owner.address,
+        tokenContract.address
+    );
+    await crowdContract.deployed();
 
-    let txn = await tokenContract.totalSupply();
+    let txn = await tokenContract.transfer(crowdContract.address, 500);
+    await txn.wait()
 
-    txn = await tokenContract.name();
-    // await txn.wait()
-
-    txn = await tokenContract.symbol();
-
-    // txn = await tokenContract.decreaseAllowance(randomUser.address, 100);
-    // await txn.wait()
-
-    // txn = await tokenContract.allowance(owner.address, randomUser.address);
+    txn = await crowdContract.buyTokens(1, {
+        value: hre.ethers.utils.parseEther("0.0001")
+    });
+    await txn.wait()
 
 }
 
