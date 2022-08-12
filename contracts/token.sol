@@ -21,17 +21,15 @@ contract TokenERC20 is IERC20, Context {
         _name = name_;
         _symbol = symbol_;
         admin = msg.sender;
-        uint256 totalSupply_ = 1000 * 10 ** decimals();
+        uint256 totalSupply_ = 1000;
         _mint(admin, totalSupply_);
     }
 
     function name() public view returns(string memory) {
-        console.log(_name);
         return _name;
     }
 
     function symbol() public view returns(string memory) {
-        console.log(_symbol);
         return _symbol;
     }
 
@@ -75,7 +73,7 @@ contract TokenERC20 is IERC20, Context {
     function _transfer(address from, address to, uint256 _amount) internal {
         require(from != address(0), "ERC20: transfer from zero address");
         require(to != address(0), "ERC20: transfer to zero address");
-        uint256 amount = _amount * 10 ** decimals();
+        uint256 amount = _amount;
 
         _beforeTokenTransfer(from, to, amount);
 
@@ -107,7 +105,7 @@ contract TokenERC20 is IERC20, Context {
         if (currentAllowance != type(uint256).max) {
             require(currentAllowance >= amount, "ERC20: insufficient allowance");
             unchecked {
-                _approve(owner, spender, currentAllowance - (amount * 10 ** decimals()));
+                _approve(owner, spender, currentAllowance - amount);
             }
         }
     }
@@ -140,8 +138,8 @@ contract TokenERC20 is IERC20, Context {
     function approve(address spender, uint256 amount) public returns(bool) {
         address owner = _msgSender();
         require(owner == msg.sender, "Transfer: Not authorized to call this function");
-        _approve(owner, spender, (amount * 10 ** decimals()));
-        console.log("%s sent %s an allowance of %d", owner, spender, amount * 10 ** decimals());
+        _approve(owner, spender, amount);
+        console.log("%s sent %s an allowance of %d", owner, spender, amount);
 
         return true;
     }
@@ -156,7 +154,7 @@ contract TokenERC20 is IERC20, Context {
     function increaseAllowance(address spender, uint256 addedValue) public returns(bool) {
         address owner = _msgSender();
         require(owner == msg.sender, "Allowance: You do not have access to this function");
-        uint256 amount = addedValue * 10 ** decimals();
+        uint256 amount = addedValue;
         _approve(owner, spender, allowance(owner, spender) + amount);
         console.log("%s increased allowance of %s by %d", owner, spender, amount);
         return true;
@@ -166,7 +164,7 @@ contract TokenERC20 is IERC20, Context {
         address owner = _msgSender();
         require(owner == msg.sender, "Allowance: You do not have access to this function");
         uint256 currentAllowance = allowance(owner, spender);
-        uint256 amount = minusValue * 10 ** decimals();
+        uint256 amount = minusValue;
         require(currentAllowance >= amount, "ERC20: decrease allowance below zero");
         unchecked {
             _approve(owner, spender, currentAllowance - amount);
@@ -176,14 +174,14 @@ contract TokenERC20 is IERC20, Context {
     }
 
     function mint(address account, uint256 amount) external returns(bool) {
-        _mint(account, (amount * 10 ** decimals()));
+        _mint(account, amount);
         return true;
     }
 
     function burn(uint256 amount) public {
         address owner = _msgSender();
         require(owner == msg.sender, "Burn: account does not belong to you");
-        _burn(owner, (amount * 10 ** decimals()));
+        _burn(owner, amount);
     }
 
 }

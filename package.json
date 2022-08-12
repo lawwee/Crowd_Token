@@ -5,5 +5,25 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.2"
-  }
+  },
+  "name": "crowd_ico",
+  "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.",
+  "version": "1.0.0",
+  "main": "hardhat.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lawwee/Crowd_Token.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lawwee/Crowd_Token/issues"
+  },
+  "homepage": "https://github.com/lawwee/Crowd_Token#readme"
 }

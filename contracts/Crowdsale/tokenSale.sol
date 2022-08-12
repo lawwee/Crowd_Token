@@ -5,15 +5,14 @@ pragma solidity ^0.8.9;
 import "hardhat/console.sol";
 import "../token.sol";
 import "./capcrowdsale.sol";
-import "./finalizedcrowdsale.sol";
 import "./timedcrowdsale.sol";
 import "./crowdsale.sol";
 import "../Extras/tokentimelock.sol";
 
-contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCrowdsale {
+contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale {
     // Track Contributions
-    uint256 public minInvestorPrice = 0.0002 ether;
-    uint256 public maxInvestorPrice = 50 ether;
+    uint256 public minInvestorPrice = 2 wei;
+    uint256 public maxInvestorPrice = 50 wei;
     mapping(address => uint256) public contributions;
 
     // Crowdsale Stages
@@ -39,6 +38,10 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
     address public foundationTimelock;
     address public partnersTimelock;
 
+    bool private _finalized;
+    event CrowdsaleFinalized();
+
+
     constructor(
         uint256 _rate,
         address payable _wallet,
@@ -59,11 +62,18 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
         foundationFund = _foundationFund;
         partnersFund = _partnersFund;
         releaseTime = _releaseTime;
+        _finalized = false;
         admin = msg.sender;
     }
 
     function getUserContributions(address _beneficiary) public view returns (uint256) {
+        console.log("User's current contribution is:", contributions[_beneficiary]);
         return contributions[_beneficiary];
+    }
+
+    function getCrowdsaleStage() public view returns (CrowdsaleStage _stage){
+        console.log("Current stage is", uint(stage));
+        return stage;
     }
 
     function setCrowdsaleStage(uint _stage) public {
@@ -73,6 +83,7 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
         } else if (uint(CrowdsaleStage.ICO) == _stage) {
             stage = CrowdsaleStage.ICO;
         }
+        console.log("new stage is", uint(stage));
 
         if(stage == CrowdsaleStage.PreICO) {
             _rate = 500;
@@ -97,8 +108,18 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
         contributions[_beneficiary] = _newContribution;
     }
 
-    function finalize() public override {
-        TokenERC20 funtoken;
+     function finalized() public view returns(bool) {
+        return _finalized;
+    }
+
+    function finalize() public {
+        require(msg.sender == admin, "No access to call function");
+        require(!_finalized, "FinalizedCrowdsale: already finalized");
+        require(hasClosed(), "FinalizableCrowdsale: crowdsale has not closed");
+
+       TokenERC20 funtoken;
+
+    //    _token = funtoken;
         uint256 alreadyMinted = funtoken.totalSupply();
 
         uint256 _finalTokenSupply = (alreadyMinted / tokenSalePercentage) * 100;
@@ -115,7 +136,12 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale, FinalizedCro
         funtoken.mint(foundationTimelock, (_finalTokenSupply * foundationPercentage) / 100);
         funtoken.mint(partnersTimelock, (_finalTokenSupply * partnersPercentage) / 100);
 
-        super.finalize();
+        _finalized = true;
+
+        _finalization();
+        emit CrowdsaleFinalized();
     }
+
+    function _finalization() internal {}
 
 }
