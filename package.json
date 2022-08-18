@@ -4,7 +4,8 @@
     "hardhat": "^2.10.1"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.7.2"
+    "@openzeppelin/contracts": "^4.7.2",
+    "dotenv": "^16.0.1"
   },
   "name": "crowd_ico",
   "description": "This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.",

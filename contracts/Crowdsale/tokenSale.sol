@@ -144,4 +144,4 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale {
 
     function _finalization() internal {}
 
-}
+} 
