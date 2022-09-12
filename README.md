@@ -42,6 +42,7 @@ The project is a two part system, whereby ERC20 tokens are first created, then t
 
 **The Crowd Sale Functions**
 
- The **TokensPurchased** Event - this is triggered when a new set of tokens 
+ The **TokensPurchased** Event - this is triggered when a new set of tokens has been purchased. It takes in four parameters, namely _purchaser_, _beneficiary_, _value_ and _amount_. The "purchaser" refers to the address buying the said amount of tokens, the "beneficiary" is the address set to receive the newly bought tokens, the "value" is the amount of ether(ETH) being sent and the "amount" refers to the quantity of tokens being sent to the beneficiary.  
 
  The **buyTokens()** Function - This takes a single parameter called the _beneficiary_, the function is called when the user chooses to buy an amount of tokens associated with the project, the amount of tokens is given to the "beneficiary", allowing whoever calls the function to buy tokens for either themselves or someone else. The tokens sent is determined by the amount of ether (ETH) sent when called.
+
