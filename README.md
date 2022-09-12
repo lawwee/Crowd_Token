@@ -42,7 +42,25 @@ The project is a two part system, whereby ERC20 tokens are first created, then t
 
 **The Crowd Sale Functions**
 
- The **TokensPurchased** Event - this is triggered when a new set of tokens has been purchased. It takes in four parameters, namely _purchaser_, _beneficiary_, _value_ and _amount_. The "purchaser" refers to the address buying the said amount of tokens, the "beneficiary" is the address set to receive the newly bought tokens, the "value" is the amount of ether(ETH) being sent and the "amount" refers to the quantity of tokens being sent to the beneficiary.  
+ * The **TokensPurchased** Event - this is triggered when a new set of tokens has been purchased. It takes in four parameters, namely _purchaser_, _beneficiary_, _value_ and _amount_. The "purchaser" refers to the address buying the said amount of tokens, the "beneficiary" is the address set to receive the newly bought tokens, the "value" is the amount of ether(ETH) being sent and the "amount" refers to the quantity of tokens being sent to the beneficiary. 
 
- The **buyTokens()** Function - This takes a single parameter called the _beneficiary_, the function is called when the user chooses to buy an amount of tokens associated with the project, the amount of tokens is given to the "beneficiary", allowing whoever calls the function to buy tokens for either themselves or someone else. The tokens sent is determined by the amount of ether (ETH) sent when called.
+ * The **TimeExtended** Event - is triggered if the time set for the project to end has been changed to a new one. It has two parameters namely _prevClosingTime_ and _newClosingTime_. As thought, the "prevClosingTime" refers to the original closing time that was set when the project was launched, the "newClosingTime" refers to the new time that has been set for the project to end.
+
+ * The **cap()** Function - simply returns the maximum amount of ether(ETH) to be reached.
+
+ * The **capReached()** Function - tells whether the "cap()" function has been reached or not.
+
+ * The **rate()** Function - returns the current rate of each token.
+
+ * The **weiRaised()** Function - shows the amount of ether(ETH) that has been raised so far.
+
+ * The **isOpen()** Function - tells if the crowdsale has started or not.
+
+ * The **hasClosed()** Function - tells if the crowdsale is closed or not.
+
+ * The **buyTokens()** Function - This takes a single parameter called the _beneficiary_, the function is called when the user chooses to buy an amount of tokens associated with the project, the amount of tokens is given to the "beneficiary", allowing whoever calls the function to buy tokens for either themselves or someone else. The tokens sent is determined by the amount of ether (ETH) sent when called.
+
+ * The **getUserContributions()** Function - this function takes in one parameter called _beneficiary_, which refers to the address that is been submitted for the function request. When called, it returns the amount of ether(ETH) given by the submitted address.
+
+ * The **getCrowdsaleStage()** Function - it allows users view whether the project is in a presale stage or the actual sale stage.
 
