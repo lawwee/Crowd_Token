@@ -38,12 +38,10 @@ contract TokenERC20 is IERC20, Context {
     }
 
     function totalSupply() public view returns(uint256) {
-        console.log(_totalSupply);
         return _totalSupply;
     }
 
     function balanceOf(address account) public view returns(uint256) {
-        console.log("Owner balance is:", _balances[account]);
         return _balances[account];
     }
 
@@ -52,7 +50,6 @@ contract TokenERC20 is IERC20, Context {
     function _afterTokenTransfer(address from, address to, uint256 amount) internal {}
 
     function allowance(address owner, address spender) public view returns(uint256) {
-        console.log("Allowance balance for %s against %s is:", owner, spender, _allowances[owner][spender]);
         return _allowances[owner][spender];
     }
 
@@ -131,7 +128,6 @@ contract TokenERC20 is IERC20, Context {
         address owner = _msgSender();
         require(owner == msg.sender, "Transfer: Not authorized to call this function");
         _transfer(owner, to, amount);
-        console.log("Transfer from %s to %s with %d", owner, to, amount);
         return true;
     }
 
@@ -139,7 +135,6 @@ contract TokenERC20 is IERC20, Context {
         address owner = _msgSender();
         require(owner == msg.sender, "Transfer: Not authorized to call this function");
         _approve(owner, spender, amount);
-        console.log("%s sent %s an allowance of %d", owner, spender, amount);
 
         return true;
     }
@@ -156,7 +151,7 @@ contract TokenERC20 is IERC20, Context {
         require(owner == msg.sender, "Allowance: You do not have access to this function");
         uint256 amount = addedValue;
         _approve(owner, spender, allowance(owner, spender) + amount);
-        console.log("%s increased allowance of %s by %d", owner, spender, amount);
+
         return true;
     }
 
@@ -169,7 +164,7 @@ contract TokenERC20 is IERC20, Context {
         unchecked {
             _approve(owner, spender, currentAllowance - amount);
         }
-        console.log("%s reduced allowance of %s by %d", owner, spender, amount);
+
         return true;
     }
 

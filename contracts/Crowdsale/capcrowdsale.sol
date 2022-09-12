@@ -13,7 +13,6 @@ abstract contract CappedCrowdsale is Crowdsale {
     }
 
     function cap() public view returns (uint256) {
-        console.log("Total cap is ", _cap);
         return _cap;
     }
 

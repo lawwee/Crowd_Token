@@ -67,12 +67,10 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale {
     }
 
     function getUserContributions(address _beneficiary) public view returns (uint256) {
-        console.log("User's current contribution is:", contributions[_beneficiary]);
         return contributions[_beneficiary];
     }
 
     function getCrowdsaleStage() public view returns (CrowdsaleStage _stage){
-        console.log("Current stage is", uint(stage));
         return stage;
     }
 
@@ -83,7 +81,6 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale {
         } else if (uint(CrowdsaleStage.ICO) == _stage) {
             stage = CrowdsaleStage.ICO;
         }
-        console.log("new stage is", uint(stage));
 
         if(stage == CrowdsaleStage.PreICO) {
             _rate = 500;
@@ -142,6 +139,6 @@ contract Crowd_Token is Crowdsale, CappedCrowdsale, TimedCrowdsale {
         emit CrowdsaleFinalized();
     }
 
-    function _finalization() internal {}
+    function _finalization() internal {} 
 
 } 
